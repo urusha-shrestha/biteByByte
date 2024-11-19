@@ -15,10 +15,17 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomPaint(
-                      size: Size(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height/1.6), // Adjust the size as needed
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                CustomPaint(
+                  size: Size(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height/1.6), // Adjust the size as needed
                   painter: AbstractShapePainter(),
                 ),
+                Image.asset('assets/images/chef.png', height:MediaQuery.sizeOf(context).height/2.5, width: MediaQuery.sizeOf(context).width/2,)
+              ],
+            ),
+            
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

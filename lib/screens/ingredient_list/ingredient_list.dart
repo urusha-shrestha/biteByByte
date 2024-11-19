@@ -15,18 +15,28 @@ class IngredientList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
+              height: 70,
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      const Text('Items detected', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                      Text('${ingredientList.length} items', style: TextStyle(color: neutralColor),)
+                      SizedBox(width:50,
+                        child: Image.asset('assets/images/ingredients.png'),
+                      ),
+                      const SizedBox(width:10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Items detected', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                          Text('${ingredientList.length} items', style: TextStyle(color: neutralColor),)
+                        ],
+                      ),
                     ],
                   ),
+
                   GestureDetector(
                       onTap:(){},
                       child: const Text('Add + ', style: TextStyle(fontSize: 18),))
@@ -69,15 +79,25 @@ class ListViewItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [BoxShadow(color:neutralColor,blurRadius: 5,spreadRadius: 0.5, offset: const Offset(3,3))]
+          boxShadow: [BoxShadow(color:neutralColor,blurRadius: 3,spreadRadius: 0.2, offset: const Offset(3,3))]
         ),
         height: 80,
-        padding: const EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(left: 8),
 
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(name, style: const TextStyle(fontSize: 18),),
+            Row(
+              children: [
+                SizedBox(
+                  height: 50,width:50,
+                  child: Image.asset('assets/images/items.png'),
+                ),
+                const SizedBox(width:10),
+                Text(name, style: const TextStyle(fontSize: 18),),
+              ],
+            ),
+
              SizedBox(
                 child: Row(
                   children: [

@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BiteByByte',
       debugShowCheckedModeBanner: false,
-      home: IngredientList(ingredientList: ingredientList,),
-      // home: HomePage(),
+      // home: IngredientList(ingredientList: ingredientList,),
+      home: HomePage(),
     );
   }
 }
