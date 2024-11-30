@@ -1,0 +1,10 @@
+final String img = 'assets/images';
+final String homePageIcon = '$img/chef.png';
+final String homePageGif ='$img/chef.gif';
+final String ingredientListIcon = '$img/ingredients.png';
+final String ingredientItemIcon = '$img/items.png';
+final String detectionLoadingGif = '$img/loading1.gif';
+final String recommendLoadingGif ='$img/recipe_recommend_loading.gif';
+final String recommendedIcon1 = '$img/recommended_1.png';
+final String recommendedIcon2 = '$img/recommended_2.png';
+final String recommendedIcon3 = '$img/recommended_3.png';

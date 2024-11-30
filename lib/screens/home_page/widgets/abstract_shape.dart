@@ -5,7 +5,7 @@ class AbstractShapePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = primaryColor // Set your desired color here
+      ..color = accentColor // Set your desired color here
       ..style = PaintingStyle.fill;
 
     final path = Path();

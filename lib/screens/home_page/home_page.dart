@@ -1,14 +1,24 @@
 import 'package:bitebybyte/constants/colors.dart';
 import 'package:bitebybyte/screens/home_page/widgets/abstract_shape.dart';
+import 'package:bitebybyte/screens/home_page/widgets/take_picture_page.dart';
+import 'package:bitebybyte/screens/loading_page/loading_page.dart';
 import 'package:flutter/material.dart';
+//import 'package:camera/camera.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+  // final CameraDescription camera;
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: accentColor,
+      backgroundColor: backgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
         child: Column(
@@ -25,7 +35,7 @@ class HomePage extends StatelessWidget {
                 Image.asset('assets/images/chef.png', height:MediaQuery.sizeOf(context).height/2.5, width: MediaQuery.sizeOf(context).width/2,)
               ],
             ),
-            
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -39,14 +49,19 @@ class HomePage extends StatelessWidget {
               ],
             ),
 
-            Container(
-              height: 90,
-              width: 90,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: primaryColor
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoadingPage(recommending: true)));
+              },
+              child: Container(
+                height: 90,
+                width: 90,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: primaryColor
+                ),
+                child: Icon(Icons.camera_alt_outlined, size: 50,color: accentColor,),
               ),
-              child: Icon(Icons.camera_alt_outlined, size: 50,color: accentColor,),
             )
           ],
         ),
