@@ -1,7 +1,11 @@
 import 'package:bitebybyte/constants/colors.dart';
+import 'package:bitebybyte/screens/ingredient_list/add_ingredient_form.dart';
 import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
 import 'package:bitebybyte/screens/ingredient_list/widgets/list_view_item.dart';
+import 'package:bitebybyte/screens/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../loading_page/loading_page.dart';
 
 class IngredientList extends StatelessWidget {
   final List<IngredientListClass> ingredientList;
@@ -39,7 +43,15 @@ class IngredientList extends StatelessWidget {
                   ),
 
                   GestureDetector(
-                      onTap:(){},
+                      onTap:(){
+                        showModalBottomSheet<void>(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AddIngredientForm();
+                          },
+                        );
+                      },
                       child: const Text('Add + ', style: TextStyle(fontSize: 18),))
                 ],
               ),
@@ -51,11 +63,12 @@ class IngredientList extends StatelessWidget {
                     return ListViewItem(name: ingredientList[index].ingredientName,count:ingredientList[index].count);
                   }),
             ),
-            Container(
-              height: 50,
-              width: MediaQuery.sizeOf(context).width,
-              color: primaryColor,
-              child: Icon(Icons.arrow_forward_sharp, size:30, color: backgroundColor),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(back: true,),
+                CustomButton(loading: true,)
+              ],
             )
           ],
         ),
@@ -63,5 +76,7 @@ class IngredientList extends StatelessWidget {
     );
   }
 }
+
+
 
 

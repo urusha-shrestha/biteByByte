@@ -1,6 +1,8 @@
 import 'package:bitebybyte/constants/colors.dart';
 import 'package:bitebybyte/screens/home_page/widgets/abstract_shape.dart';
 import 'package:bitebybyte/screens/home_page/widgets/take_picture_page.dart';
+import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
+import 'package:bitebybyte/screens/ingredient_list/ingredient_list.dart';
 import 'package:bitebybyte/screens/loading_page/loading_page.dart';
 import 'package:flutter/material.dart';
 //import 'package:camera/camera.dart';
@@ -20,9 +22,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Stack(
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                 const Text('What time is it?', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
                 const Text("It's cooking time!",style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
                 const SizedBox(
-                    height:50
+                    height:40
                 ),
                 Text('Snap a picture of your ingredients to discover delicious recipe ideas tailored just for you!',
                 textAlign: TextAlign.center, style: TextStyle(color: neutralColor),)
@@ -51,7 +53,8 @@ class _HomePageState extends State<HomePage> {
 
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoadingPage(recommending: true)));
+               // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoadingPage(recommending: true)));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: ingredientList)));
               },
               child: Container(
                 height: 90,

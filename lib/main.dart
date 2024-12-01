@@ -6,7 +6,6 @@ import 'package:bitebybyte/screens/recipe_list/custom_recipe_data.dart';
 import 'package:bitebybyte/screens/recipe_list/recipe_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:camera/camera.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +25,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BiteByByte',
       debugShowCheckedModeBanner: false,
-      home: IngredientList(ingredientList: ingredientList,),
+      //home: IngredientList(ingredientList: ingredientList,),
       // home: LoadingPage(recommending: false,),
        //home: RecipeList(recipeList: recipeList,)
-      // home: HomePage()
+       home: HomePage()
 
     );
   }
