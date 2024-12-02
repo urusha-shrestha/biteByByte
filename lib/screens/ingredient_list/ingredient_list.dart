@@ -5,11 +5,21 @@ import 'package:bitebybyte/screens/ingredient_list/widgets/list_view_item.dart';
 import 'package:bitebybyte/screens/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../loading_page/loading_page.dart';
-
-class IngredientList extends StatelessWidget {
+class IngredientList extends StatefulWidget {
   final List<IngredientListClass> ingredientList;
   const IngredientList({super.key, required this.ingredientList});
+
+  @override
+  State<IngredientList> createState() => _IngredientListState();
+}
+
+class _IngredientListState extends State<IngredientList> {
+
+  void _addNewItem(String name, int count){
+    setState(() {
+      ingredientList.add(IngredientListClass(ingredientName: name, count: count));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,7 @@ class IngredientList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text('Items detected', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                          Text('${ingredientList.length} items', style: TextStyle(color: neutralColor),)
+                          Text('${widget.ingredientList.length} items', style: TextStyle(color: neutralColor),)
                         ],
                       ),
                     ],
@@ -44,11 +54,11 @@ class IngredientList extends StatelessWidget {
 
                   GestureDetector(
                       onTap:(){
-                        showModalBottomSheet<void>(
+                        showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
                           builder: (BuildContext context) {
-                            return AddIngredientForm();
+                            return AddIngredientForm(onAdd: _addNewItem,);
                           },
                         );
                       },
@@ -58,9 +68,9 @@ class IngredientList extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                  itemCount: ingredientList.length,
+                  itemCount: widget.ingredientList.length,
                   itemBuilder: (context, index){
-                    return ListViewItem(name: ingredientList[index].ingredientName,count:ingredientList[index].count);
+                    return ListViewItem(name: widget.ingredientList[index].ingredientName,count:widget.ingredientList[index].count);
                   }),
             ),
             Row(
