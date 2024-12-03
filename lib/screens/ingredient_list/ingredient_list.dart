@@ -15,11 +15,37 @@ class IngredientList extends StatefulWidget {
 
 class _IngredientListState extends State<IngredientList> {
 
+  //function to add new item form the bottom modal sheet
   void _addNewItem(String name, int count){
     setState(() {
-      ingredientList.add(IngredientListClass(ingredientName: name, count: count));
+      widget.ingredientList.add(IngredientListClass(ingredientName: name, count: count));
     });
   }
+
+  //function to increment count
+  void _incrementCount(int index){
+    setState(() {
+      widget.ingredientList[index].count++;
+    });
+  }
+
+  //function to decrement count
+  void _decrementCount(int index){
+    setState(() {
+      if (widget.ingredientList[index].count>1){
+        widget.ingredientList[index].count--;
+      }
+    });
+  }
+
+  //function to delete an item
+  void _deleteItem(int index){
+    setState(() {
+      widget.ingredientList.removeAt(index);
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +96,14 @@ class _IngredientListState extends State<IngredientList> {
               child: ListView.builder(
                   itemCount: widget.ingredientList.length,
                   itemBuilder: (context, index){
-                    return ListViewItem(name: widget.ingredientList[index].ingredientName,count:widget.ingredientList[index].count);
+                    return ListViewItem(
+                      name: widget.ingredientList[index].ingredientName,
+                      count:widget.ingredientList[index].count,
+                      index: index,
+                      onIncrement: _incrementCount,
+                      onDecrement: _decrementCount,
+                      onDelete: _deleteItem
+                    );
                   }),
             ),
             Row(
