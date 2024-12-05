@@ -1,21 +1,76 @@
+import 'dart:io';
+
 import 'package:bitebybyte/constants/colors.dart';
 import 'package:bitebybyte/screens/home_page/widgets/abstract_shape.dart';
-import 'package:bitebybyte/screens/home_page/widgets/take_picture_page.dart';
+import 'package:bitebybyte/screens/home_page/widgets/display_picture_page.dart';
 import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
 import 'package:bitebybyte/screens/ingredient_list/ingredient_list.dart';
 import 'package:bitebybyte/screens/loading_page/loading_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-  // final CameraDescription camera;
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
 
+  File? _image;
+  final picker = ImagePicker();
+
+  //Image Picker function to get image from gallery
+  Future getImageFromGallery() async{
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if(pickedFile != null){
+        _image = File(pickedFile.path);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DisplayPicturePage(image: _image,)));
+      }
+    });
+  }
+
+  //Image Picker function to get image from camera
+  Future getImageFromCamera() async{
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if(pickedFile != null){
+        _image = File(pickedFile.path);
+        //TODO: implement object detection API
+        
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: ingredientList)));
+      }
+    });
+  }
+
+  //Show options to get image from camera or gallery
+  Future showOptions() async{
+    showCupertinoModalPopup(
+        context: context,
+        builder: (context)=> CupertinoActionSheet(
+          actions: [
+            CupertinoActionSheetAction(
+                onPressed: (){
+                  //close the options modal
+                  Navigator.of(context).pop();
+                  //get image from gallery
+                  getImageFromGallery();
+            }, child: Text('Gallery')),
+           CupertinoActionSheetAction(
+               onPressed: (){
+                 //close the options modal
+                 Navigator.of(context).pop();
+                 //get image from camera
+                 getImageFromCamera();
+               }, 
+               child: Text('Camera')) 
+          ],
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +89,7 @@ class _HomePageState extends State<HomePage> {
                   size: Size(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height/1.6), // Adjust the size as needed
                   painter: AbstractShapePainter(),
                 ),
+                //_image == null ? Text('No Image') : Image.file(_image!)
                 Image.asset('assets/images/chef.png', height:MediaQuery.sizeOf(context).height/2.5, width: MediaQuery.sizeOf(context).width/2,)
               ],
             ),
@@ -54,7 +110,8 @@ class _HomePageState extends State<HomePage> {
             GestureDetector(
               onTap: () {
                // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoadingPage(recommending: true)));
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: ingredientList)));
+              //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: ingredientList)));
+              showOptions();
               },
               child: Container(
                 height: 90,
