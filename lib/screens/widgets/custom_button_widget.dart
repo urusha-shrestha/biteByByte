@@ -6,9 +6,11 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,this.loading=false,
     this.back=false,
+    this.fullWidth=false
   });
   final bool loading;
   final bool back;
+  final bool fullWidth;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,8 +23,9 @@ class CustomButton extends StatelessWidget {
       },
       child: Container(
         height: 50,
-        width: back? MediaQuery.sizeOf(context).width/3.5 :
-              MediaQuery.sizeOf(context).width/1.42,
+        width: fullWidth? MediaQuery.sizeOf(context).width:
+                back? MediaQuery.sizeOf(context).width/3.5 :
+                  MediaQuery.sizeOf(context).width/1.42,
         color: primaryColor,
         child: Icon(
             back ? Icons.arrow_back_sharp:

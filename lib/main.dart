@@ -2,6 +2,7 @@ import 'package:bitebybyte/screens/home_page/home_page.dart';
 import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
 import 'package:bitebybyte/screens/ingredient_list/ingredient_list.dart';
 import 'package:bitebybyte/screens/loading_page/loading_page.dart';
+import 'package:bitebybyte/screens/recipe_display/recipe_display.dart';
 import 'package:bitebybyte/screens/recipe_list/custom_recipe_data.dart';
 import 'package:bitebybyte/screens/recipe_list/recipe_list.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //home: IngredientList(ingredientList: ingredientList,),
       // home: LoadingPage(recommending: false,),
-       //home: RecipeList(recipeList: recipeList,)
-       home: HomePage()
+       home: RecipeDisplay()
+       //home: HomePage()
 
     );
   }

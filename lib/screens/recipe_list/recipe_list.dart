@@ -1,5 +1,6 @@
 import 'package:bitebybyte/screens/recipe_list/custom_recipe_data.dart';
 import 'package:bitebybyte/screens/recipe_list/widgets/grid_view_item.dart';
+import 'package:bitebybyte/screens/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
@@ -45,7 +46,7 @@ class RecipeList extends StatelessWidget {
                     return GridViewItem(recipeName: recipeList[index].recipeName,even:index%2==0? true:false);
                   }),
             ),
-              Container(height: 20,)
+              CustomButton(back:true, fullWidth: true,)
             ]
     ),),);
   }

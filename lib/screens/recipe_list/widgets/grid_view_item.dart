@@ -39,7 +39,9 @@ class GridViewItem extends StatelessWidget {
           ),
         ): Container(),
 
-            const Text('Recipe'),
+            SizedBox(
+                width: MediaQuery.of(context).size.width/1.8,
+                child: Text(recipeName)),
             !even ? Container(
 height: 150, width: 90,
               decoration: const BoxDecoration(
