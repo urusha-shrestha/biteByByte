@@ -1,12 +1,18 @@
 import 'package:bitebybyte/constants/colors.dart';
+import 'package:bitebybyte/data/models/detected_items_model.dart';
+import 'package:bitebybyte/data/service/recommendation_service.dart';
 import 'package:bitebybyte/screens/ingredient_list/add_ingredient_form.dart';
 import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
 import 'package:bitebybyte/screens/ingredient_list/widgets/list_view_item.dart';
+import 'package:bitebybyte/screens/recipe_list/recipe_list.dart';
 import 'package:bitebybyte/screens/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../loading_page/loading_page.dart';
+import '../recipe_list/custom_recipe_data.dart';
+
 class IngredientList extends StatefulWidget {
-  final List<IngredientListClass> ingredientList;
+  final List<DetectedItemsModel> ingredientList;
   const IngredientList({super.key, required this.ingredientList});
 
   @override
@@ -15,10 +21,12 @@ class IngredientList extends StatefulWidget {
 
 class _IngredientListState extends State<IngredientList> {
 
-  //function to add new item form the bottom modal sheet
+  bool _isLoading = false;
+
+  //function to add new item form the bottom modal
   void _addNewItem(String name, int count){
     setState(() {
-      widget.ingredientList.add(IngredientListClass(ingredientName: name, count: count));
+      widget.ingredientList.add(DetectedItemsModel(name: name, count: count));
     });
   }
 
@@ -47,8 +55,45 @@ class _IngredientListState extends State<IngredientList> {
 
 
 
+  void _recommendItems(List<String> items) async{
+    setState(() {
+      _isLoading = true;
+    });
+
+    RecommendationService recommendationService = RecommendationService();
+    var recommendedItems = await recommendationService.getRecommendedItems(items);
+
+    setState(() {
+      _isLoading =false;
+    });
+
+    if(recommendedItems != null){
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context)=> RecipeList(recipeList: recommendedItems))
+      );
+    }
+    else{
+      showDialog(
+      context: context,
+      builder: (context)=> AlertDialog(
+      title:const Text('Error'),
+      content: const Text('Failed to fetch detected items'),
+      actions:[TextButton(
+      onPressed: () => Navigator.pop(context),
+      child: const Text('OK')
+    )
+    ]
+    )
+    );
+    }
+    }
+
   @override
   Widget build(BuildContext context) {
+    if(_isLoading){
+      return const LoadingPage(recommending: true,);
+    }
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -97,7 +142,7 @@ class _IngredientListState extends State<IngredientList> {
                   itemCount: widget.ingredientList.length,
                   itemBuilder: (context, index){
                     return ListViewItem(
-                      name: widget.ingredientList[index].ingredientName,
+                      name: widget.ingredientList[index].name,
                       count:widget.ingredientList[index].count,
                       index: index,
                       onIncrement: _incrementCount,
@@ -110,7 +155,14 @@ class _IngredientListState extends State<IngredientList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(back: true,),
-                CustomButton(loading: true,)
+                CustomButton(customFunc: true,
+                    onTap: (){
+                      List<String> namesList = widget.ingredientList.map((item) => item.name).toList();
+                      if(namesList.isNotEmpty){
+                        _recommendItems(namesList);
+                      }
+
+                    },)
               ],
             )
           ],

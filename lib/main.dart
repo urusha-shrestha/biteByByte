@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //home: IngredientList(ingredientList: ingredientList,),
       // home: LoadingPage(recommending: false,),
-       home: RecipeDisplay()
-       //home: HomePage()
+       //home: RecipeDisplay()
+       home: HomePage()
 
     );
   }

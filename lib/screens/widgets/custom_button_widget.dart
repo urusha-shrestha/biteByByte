@@ -6,15 +6,19 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,this.loading=false,
     this.back=false,
-    this.fullWidth=false
+    this.fullWidth=false,
+    this.customFunc=false,
+    this.onTap
   });
   final bool loading;
   final bool back;
   final bool fullWidth;
+  final bool customFunc;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: customFunc? onTap:(){
         back ? Navigator.of(context).pop():
         loading ? Navigator.of(context).push(
             MaterialPageRoute(builder: (context)=>LoadingPage(recommending: true))) :

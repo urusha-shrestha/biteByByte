@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bitebybyte/constants/colors.dart';
+import 'package:bitebybyte/data/service/detection_service.dart';
 import 'package:bitebybyte/screens/home_page/widgets/abstract_shape.dart';
 import 'package:bitebybyte/screens/home_page/widgets/display_picture_page.dart';
 import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
@@ -20,6 +21,40 @@ class _HomePageState extends State<HomePage> {
 
   File? _image;
   final picker = ImagePicker();
+  bool _isLoading = false;
+
+  //detection method
+  void _detectItems(File imageFile) async{
+    setState(() {
+      _isLoading = true;
+    });
+
+    DetectionService detectionService = DetectionService();
+    var detectedItems = await detectionService.getDetectedItems(imageFile);
+
+    setState(() {
+      _isLoading =false;
+    });
+    if(detectedItems != null){
+      Navigator.push(
+      context,
+          MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: detectedItems.items)));
+    }
+    else{
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: const Text('Failed to fetch detected items.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),);
+    }
+  }
 
   //Image Picker function to get image from gallery
   Future getImageFromGallery() async{
@@ -40,11 +75,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       if(pickedFile != null){
         _image = File(pickedFile.path);
-        //TODO: implement object detection API
-        
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: ingredientList)));
       }
     });
+
+    if (_image !=null){
+      _detectItems(_image!);
+    }
   }
 
   //Show options to get image from camera or gallery
@@ -74,6 +110,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if(_isLoading){
+      return const LoadingPage(recommending: false,);
+    }
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Padding(
@@ -109,8 +148,6 @@ class _HomePageState extends State<HomePage> {
 
             GestureDetector(
               onTap: () {
-               // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoadingPage(recommending: true)));
-              //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: ingredientList)));
               showOptions();
               },
               child: Container(

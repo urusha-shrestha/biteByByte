@@ -1,3 +1,4 @@
+import 'package:bitebybyte/data/models/recommeded_items_model.dart';
 import 'package:bitebybyte/screens/recipe_list/custom_recipe_data.dart';
 import 'package:bitebybyte/screens/recipe_list/widgets/grid_view_item.dart';
 import 'package:bitebybyte/screens/widgets/custom_button_widget.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 
 class RecipeList extends StatelessWidget {
-  final List<RecipeListClass> recipeList;
+  final RecommendedItemsResponseModel recipeList;
   const RecipeList({super.key, required this.recipeList});
 
   @override
@@ -41,9 +42,9 @@ class RecipeList extends StatelessWidget {
           )),
             Expanded(
               child: ListView.builder(
-                  itemCount: recipeList.length,
+                  itemCount: recipeList.recommendations.length,
                   itemBuilder: (context, index){
-                    return GridViewItem(recipeName: recipeList[index].recipeName,even:index%2==0? true:false);
+                    return GridViewItem(recipe: recipeList.recommendations[index],even:index%2==0? true:false);
                   }),
             ),
               CustomButton(back:true, fullWidth: true,)
