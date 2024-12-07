@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
     if(detectedItems != null){
       Navigator.push(
       context,
-          MaterialPageRoute(builder: (context)=>IngredientList(ingredientList: detectedItems.items)));
+          MaterialPageRoute(builder: (context)=>IngredientList(
+              ingredientList: detectedItems.items,
+          imageId: detectedItems.imageUuid,)));
     }
     else{
       showDialog(

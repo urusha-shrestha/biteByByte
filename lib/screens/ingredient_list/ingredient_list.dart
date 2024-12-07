@@ -1,19 +1,20 @@
+
 import 'package:bitebybyte/constants/colors.dart';
 import 'package:bitebybyte/data/models/detected_items_model.dart';
+import 'package:bitebybyte/data/service/image_service.dart';
 import 'package:bitebybyte/data/service/recommendation_service.dart';
 import 'package:bitebybyte/screens/ingredient_list/add_ingredient_form.dart';
-import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
 import 'package:bitebybyte/screens/ingredient_list/widgets/list_view_item.dart';
 import 'package:bitebybyte/screens/recipe_list/recipe_list.dart';
 import 'package:bitebybyte/screens/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
-
 import '../loading_page/loading_page.dart';
-import '../recipe_list/custom_recipe_data.dart';
+import 'dart:typed_data';
 
 class IngredientList extends StatefulWidget {
+  final String imageId;
   final List<DetectedItemsModel> ingredientList;
-  const IngredientList({super.key, required this.ingredientList});
+  const IngredientList({super.key, required this.ingredientList, required this.imageId});
 
   @override
   State<IngredientList> createState() => _IngredientListState();
@@ -22,6 +23,7 @@ class IngredientList extends StatefulWidget {
 class _IngredientListState extends State<IngredientList> {
 
   bool _isLoading = false;
+
 
   //function to add new item form the bottom modal
   void _addNewItem(String name, int count){
@@ -89,6 +91,24 @@ class _IngredientListState extends State<IngredientList> {
     }
     }
 
+    void showImageDialog(BuildContext context,Uint8List imageData){
+      showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return Dialog(
+              insetPadding: EdgeInsets.only(top:40, left:16, right:16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20)
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.memory(imageData,
+                fit: BoxFit.cover,)
+              ),
+            );
+          });
+    }
+
   @override
   Widget build(BuildContext context) {
     if(_isLoading){
@@ -151,6 +171,32 @@ class _IngredientListState extends State<IngredientList> {
                     );
                   }),
             ),
+            FloatingActionButton(
+                shape: CircleBorder(),
+                onPressed: ()async{
+                  try{
+                    ImageService imageService = ImageService();
+                    Uint8List imageData = await imageService.getDetectedImage(widget.imageId);
+                    showImageDialog(context, imageData);
+                  } catch(e){
+                    showDialog(
+                      context:context,
+                      builder:(BuildContext  context){
+                        return AlertDialog(
+                          title: Text('Error'),
+                          actions:[
+                            TextButton(
+                              onPressed: ()=> Navigator.of(context).pop(),
+                              child: Text('OK'),
+                            )
+                          ]
+                        );
+                      }
+                    );
+                  }
+                },
+            child: Icon(Icons.image),),
+            SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

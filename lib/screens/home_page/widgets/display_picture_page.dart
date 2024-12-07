@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:bitebybyte/screens/ingredient_list/custom_ingredient_data.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/service/detection_service.dart';
@@ -37,7 +35,8 @@ class _DisplayPicturePageState extends State<DisplayPicturePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => IngredientList(ingredientList:detectedItems.items),
+            builder: (context) => IngredientList(ingredientList:detectedItems.items,
+            imageId: detectedItems.imageUuid,),
           ),
         );
       } else {
